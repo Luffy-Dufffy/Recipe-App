@@ -1,13 +1,24 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
+import useLocalStorage from "../useLocalStorage";
 
 export const GlobalContext = createContext(null);
 
 function GlobalState({ children }) {
+  const [savedFavouriteItems, setSavedFavouriteItems] = useLocalStorage(
+    "savedFavouriteList",
+    []
+  );
   const [searchParam, setSearchParam] = useState("");
   const [searchData, setSearchData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [errMsg, setErrMsg] = useState("");
   const [recipeDetailData, setRecipeDetailData] = useState({});
+  const [favouriteRecipeList, setFavouriteRecipeList] =
+    useState(savedFavouriteItems);
+
+  useEffect(() => {
+    setSavedFavouriteItems(favouriteRecipeList);
+  }, [favouriteRecipeList, setSavedFavouriteItems]);
 
   async function handleSearchSubmit(event) {
     event.preventDefault();
@@ -55,6 +66,20 @@ function GlobalState({ children }) {
     }
   }
 
+  function handleAddAndRemoveToFavouriteList(newFavouriteItem) {
+    if (newFavouriteItem) {
+      if (
+        !favouriteRecipeList.some((item) => item.id === newFavouriteItem.id)
+      ) {
+        setFavouriteRecipeList((f) => [...f, newFavouriteItem]);
+      } else {
+        setFavouriteRecipeList((f) =>
+          f.filter((favouriteItem) => favouriteItem.id !== newFavouriteItem.id)
+        );
+      }
+    }
+  }
+
   return (
     <GlobalContext.Provider
       value={{
@@ -70,6 +95,9 @@ function GlobalState({ children }) {
         recipeDetailData,
         setRecipeDetailData,
         handleRecipeDetailsView,
+        favouriteRecipeList,
+        setFavouriteRecipeList,
+        handleAddAndRemoveToFavouriteList,
       }}
     >
       {children}

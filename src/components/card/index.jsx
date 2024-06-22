@@ -1,6 +1,20 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { GlobalContext } from "../../context";
 
 export default function Card({ item }) {
+  const { favouriteRecipeList, handleAddAndRemoveToFavouriteList } =
+    useContext(GlobalContext);
+
+  function checkIsAlreadyFavourite() {
+    if (
+      favouriteRecipeList.some((favouriteItem) => favouriteItem.id === item.id)
+    ) {
+      return "Remove from Favourites😭";
+    }
+    return "Add To Favourites😍";
+  }
+
   return (
     <div className="h-[22rem] w-72 p-2 rounded-md shadow-lg transition-all duration-75 hover:translate-y-[-3px] cursor-pointer">
       <img
@@ -21,8 +35,11 @@ export default function Card({ item }) {
         >
           View Details
         </Link>
-        <button className="h-8 min-w-[90%] rounded-lg px-4 text-sm bg-blue-600 text-white">
-          Add To Favourites
+        <button
+          className="h-8 min-w-[90%] rounded-lg px-4 text-sm bg-blue-600 text-white"
+          onClick={() => handleAddAndRemoveToFavouriteList(item)}
+        >
+          {checkIsAlreadyFavourite()}
         </button>
       </div>
     </div>

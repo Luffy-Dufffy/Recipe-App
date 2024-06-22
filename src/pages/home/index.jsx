@@ -5,11 +5,10 @@ import { GlobalContext } from "../../context";
 function Home() {
   const { searchData, loading, errMsg } = useContext(GlobalContext);
 
-  console.log(searchData);
   return (
     <main className="mt-[8rem] flex justify-center items-center">
       {searchData.length <= 0 && !loading && (
-        <h2 className="w-[100%] text-center font-bold text-xl">
+        <h2 className=" min-w-[30%] text-center font-bold text-xl mt-36 bg-zinc-500 backdrop-blur-sm p-5 text-white">
           {errMsg ? errMsg : `No Item to show. Search something like "Curry".`}
         </h2>
       )}
@@ -22,14 +21,9 @@ function Home() {
 
       {!errMsg && !loading && searchData.length > 0 && (
         <>
-          <div className="grid grid-cols-3 gap-y-8 gap-x-5 place-content-center w-[65%]">
+          <div className="py-8 container mx-auto flex flex-wrap justify-center gap-10  w-[65%]">
             {searchData.map((dataItem, index) => {
-              return (
-                <Card
-                  key={index}
-                item={dataItem}
-                />
-              );
+              return <Card key={index} item={dataItem} />;
             })}
           </div>
         </>
