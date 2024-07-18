@@ -20,6 +20,7 @@ export default function Card({ item }) {
       <img
         src={item.image_url}
         alt={item.title}
+        loading="lazy"
         className="h-[50%] w-[100%] object-cover bg-slate-800 rounded-md mb-3 text-white"
       />
       <div>

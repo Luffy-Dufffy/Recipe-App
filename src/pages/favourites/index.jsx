@@ -13,13 +13,7 @@ function Favourites() {
       <div className="py-8 container mx-auto flex flex-wrap justify-center gap-10  w-[65%]">
         {favouriteRecipeList.length > 0 ? (
           favouriteRecipeList.map((favouriteRecipeItem, index) => {
-            return (
-              <Card
-                key={index}
-                item={favouriteRecipeItem}
-                favouriteBtnDisabled={true}
-              />
-            );
+            return <Card key={index} item={favouriteRecipeItem} />;
           })
         ) : (
           <div className="mt-36 font-bold bg-zinc-500 backdrop-blur-sm p-5 text-white rounded-lg">
